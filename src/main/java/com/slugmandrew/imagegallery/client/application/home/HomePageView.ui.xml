@@ -1,4 +1,12 @@
-<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
-    <g:HTMLPanel>Hello World!</g:HTMLPanel>
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder' xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+
+	<g:HTMLPanel>
+
+		<g:SimplePanel ui:field="uploadPanel" />
+		<g:SimplePanel ui:field="photoSharing" />
+		<g:SimplePanel ui:field="uploadedImage" />
+		<g:SimplePanel ui:field="gallery" />
+
+	</g:HTMLPanel>
+
 </ui:UiBinder>

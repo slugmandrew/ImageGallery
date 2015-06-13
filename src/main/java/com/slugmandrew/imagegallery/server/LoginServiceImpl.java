@@ -8,8 +8,7 @@ import com.slugmandrew.imagegallery.client.services.LoginService;
 import com.slugmandrew.imagegallery.shared.LoginInfo;
 
 @SuppressWarnings("serial")
-public class LoginServiceImpl extends RemoteServiceServlet implements
-		LoginService
+public class LoginServiceImpl extends RemoteServiceServlet implements LoginService
 {
 	
 	public LoginInfo login(String requestUri)
@@ -21,7 +20,7 @@ public class LoginServiceImpl extends RemoteServiceServlet implements
 		if(user != null)
 		{
 			loginInfo.setLoggedIn(true);
-			loginInfo.setEmailAddress(user.getEmail());
+			loginInfo.setEmail(user.getEmail());
 			loginInfo.setNickname(user.getNickname());
 			loginInfo.setLogoutUrl(userService.createLogoutURL(requestUri));
 			loginInfo.setId(user.getUserId());

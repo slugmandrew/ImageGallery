@@ -27,7 +27,6 @@ import com.slugmandrew.imagegallery.shared.UploadedImage;
 
 public class UploadPhoto extends Composite implements HasHandlers
 {
-	
 	private static Binder uiBinder = GWT.create(Binder.class);
 	
 	UserImageServiceAsync userImageService = GWT.create(UserImageService.class);
@@ -57,7 +56,6 @@ public class UploadPhoto extends Composite implements HasHandlers
 		
 		initWidget(uiBinder.createAndBindUi(this));
 		
-		uploadButton.setText("Upload");
 		uploadButton.setText("Loading...");
 		uploadButton.setEnabled(false);
 		

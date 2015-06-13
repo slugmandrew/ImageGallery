@@ -10,9 +10,21 @@ public class LoginInfo implements Serializable
 	private boolean loggedIn = false;
 	private String loginUrl;
 	private String logoutUrl;
-	private String emailAddress;
+	private String email;
 	private String nickname;
 	private String id;
+	
+	
+	public void copyFrom(LoginInfo loginInfo)
+	{
+		loggedIn = loginInfo.loggedIn;
+		id = loginInfo.id;
+		logoutUrl = loginInfo.logoutUrl;
+		loginUrl = loginInfo.loginUrl;
+		nickname = loginInfo.nickname;
+		email = loginInfo.email;
+	}
+	
 	
 	public boolean isLoggedIn()
 	{
@@ -54,14 +66,14 @@ public class LoginInfo implements Serializable
 		this.logoutUrl = logoutUrl;
 	}
 	
-	public String getEmailAddress()
+	public String getEmail()
 	{
-		return emailAddress;
+		return email;
 	}
 	
-	public void setEmailAddress(String emailAddress)
+	public void setEmail(String email)
 	{
-		this.emailAddress = emailAddress;
+		this.email = email;
 	}
 	
 	public String getNickname()
@@ -81,10 +93,11 @@ public class LoginInfo implements Serializable
 				.add("loggedIn", loggedIn)
 				.add("loginUrl", loginUrl)
 				.add("logoutUrl", logoutUrl)
-				.add("emailAddress", emailAddress)
+				.add("emailAddress", email)
 				.add("nickname", nickname)
 				.add("id", id)
 				.toString();
 	}
-	
+
+
 }

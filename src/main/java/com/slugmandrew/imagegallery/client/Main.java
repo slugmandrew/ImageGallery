@@ -17,7 +17,7 @@ import com.slugmandrew.imagegallery.shared.LoginInfo;
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
-public class Main implements EntryPoint
+public class Main
 {
 	// Login code shamelessly stolen from:
 	// http://code.google.com/webtoolkit/doc/latest/tutorial/appengine.html
@@ -61,7 +61,6 @@ public class Main implements EntryPoint
 				}
 				
 			}
-			
 			@Override
 			public void onFailure(Throwable caught)
 			{

@@ -1,4 +1,11 @@
-<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
-    <g:SimplePanel ui:field="main"/>
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder' xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+
+	<g:HTMLPanel>
+	
+		<g:Label>Application</g:Label>
+	
+		<g:SimplePanel ui:field="main" />
+
+	</g:HTMLPanel>
+
 </ui:UiBinder>

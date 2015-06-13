@@ -13,7 +13,7 @@ public class DispatchServletModule extends ServletModule
 	{
 		serve("/" + ActionImpl.DEFAULT_SERVICE_NAME + "*").with(DispatchServiceImpl.class);
 		
-//		filter("/*").through(ObjectifyFilter.class);
-//		bind(ObjectifyFilter.class).in(Singleton.class);
+		// filter("/*").through(ObjectifyFilter.class);
+		// bind(ObjectifyFilter.class).in(Singleton.class);
 	}
 }

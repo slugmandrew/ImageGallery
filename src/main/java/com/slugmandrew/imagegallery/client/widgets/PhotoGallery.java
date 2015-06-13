@@ -29,8 +29,7 @@ import com.slugmandrew.imagegallery.shared.UploadedImage;
 public class PhotoGallery extends Composite implements GalleryUpdatedEventHandler
 {
 	
-	private static PhotoGalleryUiBinder uiBinder = GWT
-			.create(PhotoGalleryUiBinder.class);
+	private static PhotoGalleryUiBinder uiBinder = GWT.create(PhotoGalleryUiBinder.class);
 	
 	UserImageServiceAsync userImageService = GWT.create(UserImageService.class);
 	
@@ -55,41 +54,39 @@ public class PhotoGallery extends Composite implements GalleryUpdatedEventHandle
 	
 	public void refreshGallery()
 	{
-		userImageService
-				.getRecentlyUploaded(new AsyncCallback<List<UploadedImage>>()
+		userImageService.getRecentlyUploaded(new AsyncCallback<List<UploadedImage>>()
+		{
+			
+			@Override
+			public void onSuccess(List<UploadedImage> images)
+			{
+				
+				int currentColumn = 0;
+				int currentRow = 0;
+				for(final UploadedImage image : images)
 				{
 					
-					@Override
-					public void onSuccess(List<UploadedImage> images)
-					{
-						
-						int currentColumn = 0;
-						int currentRow = 0;
-						for(final UploadedImage image : images)
-						{
-							
-							Image imageWidget = createImageWidget(image);
-							
-							galleryTable.setWidget(currentRow, currentColumn,
-									imageWidget);
-							
-							currentColumn++;
-							if(currentColumn >= GALLERY_WIDTH)
-							{
-								currentColumn = 0;
-								currentRow++;
-							}
-						}
-						
-					}
+					Image imageWidget = createImageWidget(image);
 					
-					@Override
-					public void onFailure(Throwable caught)
+					galleryTable.setWidget(currentRow, currentColumn, imageWidget);
+					
+					currentColumn++;
+					if(currentColumn >= GALLERY_WIDTH)
 					{
-						// TODO Auto-generated method stub
-						
+						currentColumn = 0;
+						currentRow++;
 					}
-				});
+				}
+				
+			}
+			
+			@Override
+			public void onFailure(Throwable caught)
+			{
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 	
 	private Image createImageWidget(final UploadedImage image)
@@ -100,7 +97,6 @@ public class PhotoGallery extends Composite implements GalleryUpdatedEventHandle
 		
 		imageWidget.addMouseOverHandler(new MouseOverHandler()
 		{
-			
 			@Override
 			public void onMouseOver(MouseOverEvent event)
 			{
@@ -110,8 +106,7 @@ public class PhotoGallery extends Composite implements GalleryUpdatedEventHandle
 						+ 10;
 				
 				simplePopup.setWidth("150px");
-				simplePopup.setWidget(new HTML("Uploaded: "
-						+ image.getCreatedAt()));
+				simplePopup.setWidget(new HTML("Uploaded: " + image.getCreatedAt()));
 				simplePopup.show();
 				simplePopup.setPopupPosition(left, top);
 			}
@@ -129,7 +124,6 @@ public class PhotoGallery extends Composite implements GalleryUpdatedEventHandle
 		
 		imageWidget.addClickHandler(new ClickHandler()
 		{
-			
 			@Override
 			public void onClick(ClickEvent event)
 			{
