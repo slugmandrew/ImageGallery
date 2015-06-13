@@ -18,10 +18,14 @@ class ApplicationView extends ViewImpl implements ApplicationPresenter.MyView
 	@UiField
 	SimplePanel main;
 	
+	
+	
 	@Inject
 	ApplicationView(Binder uiBinder)
 	{
 		initWidget(uiBinder.createAndBindUi(this));
+		
+		
 	}
 	
 	@Override
@@ -36,4 +40,6 @@ class ApplicationView extends ViewImpl implements ApplicationPresenter.MyView
 			super.setInSlot(slot, content);
 		}
 	}
+	
+
 }

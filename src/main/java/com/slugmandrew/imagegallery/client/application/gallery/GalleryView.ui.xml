@@ -5,12 +5,7 @@
 
 		<g:Label>Gallery:</g:Label>
 
-		<g:FlexTable ui:field="galleryTable" />
-
-		<g:Label>Cells:</g:Label>
-
 		<c:CellList ui:field="table" />
-
 
 	</g:HTMLPanel>
 

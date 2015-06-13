@@ -21,36 +21,16 @@ class GalleryView extends ViewWithUiHandlers<GalleryUiHandlers> implements Galle
 	{
 	}
 	
-	@UiField
-	FlexTable galleryTable;
-	
-	UploadedImageCell uploadedImageCell = new UploadedImageCell();
-	
 	@UiField(provided = true)
-	CellList<UploadedImage> table = new CellList<>(uploadedImageCell, MyCellListResource.INSTANCE);
-	
-	// Column<UploadedImage, String> imageColumn = new Column<UploadedImage, String>(new ImageCell())
-	// {
-	// @Override
-	// public String getValue(UploadedImage object)
-	// {
-	// return object.getServingUrl();
-	// }
-	// };
+	CellList<UploadedImage> table;
 	
 	@Inject
-	GalleryView(Binder uiBinder)
+	GalleryView(Binder uiBinder, UploadedImageCell uploadedImageCell)
 	{
-//		MyCellListResource.INSTANCE.cellListStyle().ensureInjected();
-
+		table = new CellList<>(uploadedImageCell, MyCellListResource.INSTANCE);
+		
 		initWidget(uiBinder.createAndBindUi(this));
 		
-	}
-	
-	@Override
-	public FlexTable getGalleryTable()
-	{
-		return galleryTable;
 	}
 	
 	@Override

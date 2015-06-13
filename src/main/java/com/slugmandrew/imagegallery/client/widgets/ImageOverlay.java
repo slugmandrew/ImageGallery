@@ -70,6 +70,7 @@ public class ImageOverlay extends Composite implements HasHandlers
 	VerticalPanel tagPanel;
 	
 	protected UploadedImage uploadedImage;
+	
 	LoginInfo loginInfo;
 	
 	public ImageOverlay(UploadedImage uploadedImage, LoginInfo loginInfo)
@@ -84,8 +85,7 @@ public class ImageOverlay extends Composite implements HasHandlers
 		image.setUrl(uploadedImage.getServingUrl());
 		timestamp.setText("Created at:" + uploadedImage.getCreatedAt());
 		
-		if(loginInfo != null
-				&& (loginInfo.getId().equals(uploadedImage.getOwnerId())))
+		if(loginInfo != null && (loginInfo.getId().equals(uploadedImage.getOwnerId())))
 		{
 			deleteButton.setText("Delete image");
 			deleteButton.setVisible(true);
@@ -96,28 +96,27 @@ public class ImageOverlay extends Composite implements HasHandlers
 		}
 		
 		// Now let's fetch the tags
-		imageService.getTagsForImage(uploadedImage,
-				new AsyncCallback<List<Tag>>()
+		imageService.getTagsForImage(uploadedImage, new AsyncCallback<List<Tag>>()
+		{
+			
+			@Override
+			public void onFailure(Throwable caught)
+			{
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onSuccess(List<Tag> result)
+			{
+				// TODO Auto-generated method stub
+				for(Tag tag : result)
 				{
-					
-					@Override
-					public void onFailure(Throwable caught)
-					{
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void onSuccess(List<Tag> result)
-					{
-						// TODO Auto-generated method stub
-						for(Tag tag : result)
-						{
-							tagPanel.add(new HTMLPanel(tag.getBody()));
-						}
-						
-					}
-				});
+					tagPanel.add(new HTMLPanel(tag.getBody()));
+				}
+				
+			}
+		});
 		
 	}
 	
@@ -262,8 +261,7 @@ public class ImageOverlay extends Composite implements HasHandlers
 		handlerManager.fireEvent(event);
 	}
 	
-	public HandlerRegistration addGalleryUpdatedEventHandler(
-			GalleryUpdatedEventHandler handler)
+	public HandlerRegistration addGalleryUpdatedEventHandler(GalleryUpdatedEventHandler handler)
 	{
 		return handlerManager.addHandler(GalleryUpdatedEvent.TYPE, handler);
 	}

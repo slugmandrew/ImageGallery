@@ -1,0 +1,22 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder" xmlns:g="urn:import:com.google.gwt.user.client.ui">
+
+	<ui:style>
+	.important {
+		font-weight: bold;
+	}
+	</ui:style>
+
+	<g:PopupPanel autoHideEnabled="true" glassEnabled="true" modal="true" width="512px" height="512px">
+
+		<g:HTMLPanel>
+
+			<g:Image ui:field="image" />
+			<g:Label ui:field="timestamp" />
+			<g:Button styleName="{style.important}" ui:field="deleteButton" />
+
+		</g:HTMLPanel>
+
+	</g:PopupPanel>
+
+</ui:UiBinder>

@@ -6,9 +6,7 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DecoratedPopupPanel;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
@@ -17,6 +15,7 @@ import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.HasUiHandlers;
 import com.gwtplatform.mvp.client.PresenterWidget;
 import com.gwtplatform.mvp.client.View;
+import com.slugmandrew.imagegallery.client.dispatch.AsyncCallbackImpl;
 import com.slugmandrew.imagegallery.client.events.GalleryUpdatedEvent;
 import com.slugmandrew.imagegallery.client.events.GalleryUpdatedEventHandler;
 import com.slugmandrew.imagegallery.client.services.UserImageServiceAsync;
@@ -26,13 +25,10 @@ public class GalleryPresenter extends PresenterWidget<GalleryPresenter.MyView> i
 {
 	interface MyView extends View, HasUiHandlers<GalleryUiHandlers>
 	{
-		FlexTable getGalleryTable();
 		void setData(List<UploadedImage> data);
 	}
 	
 	private UserImageServiceAsync userImageService;
-	
-	private static final int GALLERY_WIDTH = 8;
 	
 	@Inject
 	GalleryPresenter(EventBus eventBus, MyView view, UserImageServiceAsync userImageService)
@@ -62,46 +58,18 @@ public class GalleryPresenter extends PresenterWidget<GalleryPresenter.MyView> i
 	
 	public void refreshGallery()
 	{
-		userImageService.getRecentlyUploaded(new AsyncCallback<List<UploadedImage>>()
+		userImageService.getRecentlyUploaded(new AsyncCallbackImpl<List<UploadedImage>>()
 		{
 			@Override
-			public void onSuccess(List<UploadedImage> images)
+			public void onReturn(List<UploadedImage> images)
 			{
 				
 				getView().setData(images);
 				
-				
-				
-				int currentColumn = 0;
-				int currentRow = 0;
-				for(final UploadedImage image : images)
-				{
-					
-					Image imageWidget = createImageWidget(image);
-					
-					getView().getGalleryTable().setWidget(currentRow, currentColumn, imageWidget);
-					
-					currentColumn++;
-					
-					if(currentColumn >= GALLERY_WIDTH)
-					{
-						currentColumn = 0;
-						currentRow++;
-					}
-				}
-				
 			}
 			
-			@Override
-			public void onFailure(Throwable caught)
-			{
-				// TODO Auto-generated method stub
-				
-			}
 		});
 	}
-	
-	
 	
 	private Image createImageWidget(final UploadedImage image)
 	{
@@ -161,9 +129,5 @@ public class GalleryPresenter extends PresenterWidget<GalleryPresenter.MyView> i
 	{
 		refreshGallery();
 	}
-	
-	
-	
-	
 	
 }
