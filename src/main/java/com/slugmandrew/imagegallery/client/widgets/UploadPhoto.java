@@ -1,5 +1,6 @@
 package com.slugmandrew.imagegallery.client.widgets;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.shared.GwtEvent;
@@ -27,14 +28,13 @@ import com.slugmandrew.imagegallery.shared.UploadedImage;
 public class UploadPhoto extends Composite implements HasHandlers
 {
 	
-	private static UploadPhotoUiBinder uiBinder = GWT
-			.create(UploadPhotoUiBinder.class);
+	private static Binder uiBinder = GWT.create(Binder.class);
 	
 	UserImageServiceAsync userImageService = GWT.create(UserImageService.class);
 	
 	private HandlerManager handlerManager;
 	
-	interface UploadPhotoUiBinder extends UiBinder<Widget, UploadPhoto>
+	interface Binder extends UiBinder<Widget, UploadPhoto>
 	{
 	}
 	
@@ -65,65 +65,64 @@ public class UploadPhoto extends Composite implements HasHandlers
 		
 		startNewBlobstoreSession();
 		
-		uploadForm
-				.addSubmitCompleteHandler(new FormPanel.SubmitCompleteHandler()
+		uploadForm.addSubmitCompleteHandler(new FormPanel.SubmitCompleteHandler()
+		{
+			@Override
+			public void onSubmitComplete(SubmitCompleteEvent event)
+			{
+				uploadForm.reset();
+				
+				startNewBlobstoreSession();
+				
+				String key = event.getResults();
+				
+				Log.info("UploadPhoto.UploadPhoto(...).new SubmitCompleteHandler() {...} -> onSubmitComplete() event: " + event);
+				Log.info("UploadPhoto.UploadPhoto(...).new SubmitCompleteHandler() {...} -> onSubmitComplete() key: " + key);
+				
+				userImageService.get(key, new AsyncCallback<UploadedImage>()
 				{
+					@Override
+					public void onFailure(Throwable caught)
+					{
+						Log.error("UploadPhoto.onSubmitComplete(...) onFailure()", caught);
+					}
 					
 					@Override
-					public void onSubmitComplete(SubmitCompleteEvent event)
+					public void onSuccess(UploadedImage result)
 					{
-						uploadForm.reset();
-						startNewBlobstoreSession();
+						ImageOverlay overlay = new ImageOverlay(result, loginInfo);
+						GalleryUpdatedEvent event = new GalleryUpdatedEvent();
+						fireEvent(event);
 						
-						String key = event.getResults();
+						// TODO: Add something here that says,
+						// hey, upload succeeded
 						
-						userImageService.get(key,
-								new AsyncCallback<UploadedImage>()
-								{
-									
-									@Override
-									public void onFailure(Throwable caught)
-									{
-										// TODO Auto-generated method stub
-										
-									}
-									
-									@Override
-									public void onSuccess(UploadedImage result)
-									{
-										
-										ImageOverlay overlay = new ImageOverlay(
-												result, loginInfo);
-										GalleryUpdatedEvent event = new GalleryUpdatedEvent();
-										fireEvent(event);
-										
-										// TODO: Add something here that says,
-										// hey, upload succeeded
-										
-										final PopupPanel imagePopup = new PopupPanel(
-												true);
-										imagePopup.setAnimationEnabled(true);
-										imagePopup.setWidget(overlay);
-										imagePopup.setGlassEnabled(true);
-										imagePopup.setAutoHideEnabled(true);
-										
-										imagePopup.center();
-										
-									}
-								});
+						final PopupPanel imagePopup = new PopupPanel(true);
+						imagePopup.setAnimationEnabled(true);
+						imagePopup.setWidget(overlay);
+						imagePopup.setGlassEnabled(true);
+						imagePopup.setAutoHideEnabled(true);
+						
+						imagePopup.center();
 						
 					}
 				});
+				
+			}
+		});
 	}
 	
 	private void startNewBlobstoreSession()
 	{
 		userImageService.getBlobstoreUploadUrl(new AsyncCallback<String>()
 		{
-			
 			@Override
 			public void onSuccess(String result)
 			{
+				result = result.replace("Drew-i7-PC", "localhost");
+				
+				Log.info("UploadPhoto.startNewBlobstoreSession().new AsyncCallback() {...} -> onSuccess() result: " + result);
+				
 				uploadForm.setAction(result);
 				uploadForm.setEncoding(FormPanel.ENCODING_MULTIPART);
 				uploadForm.setMethod(FormPanel.METHOD_POST);
@@ -136,8 +135,7 @@ public class UploadPhoto extends Composite implements HasHandlers
 			@Override
 			public void onFailure(Throwable caught)
 			{
-				// TODO Auto-generated method stub
-				
+				Log.error("UploadPhoto.startNewBlobstoreSession().new AsyncCallback() {...} -> onFailure()", caught);
 			}
 		});
 	}
@@ -154,8 +152,7 @@ public class UploadPhoto extends Composite implements HasHandlers
 		handlerManager.fireEvent(event);
 	}
 	
-	public HandlerRegistration addGalleryUpdatedEventHandler(
-			GalleryUpdatedEventHandler handler)
+	public HandlerRegistration addGalleryUpdatedEventHandler(GalleryUpdatedEventHandler handler)
 	{
 		return handlerManager.addHandler(GalleryUpdatedEvent.TYPE, handler);
 	}

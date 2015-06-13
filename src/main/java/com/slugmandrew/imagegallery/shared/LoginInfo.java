@@ -2,10 +2,11 @@ package com.slugmandrew.imagegallery.shared;
 
 import java.io.Serializable;
 
+import com.google.common.base.Objects;
+
 @SuppressWarnings("serial")
 public class LoginInfo implements Serializable
 {
-	
 	private boolean loggedIn = false;
 	private String loginUrl;
 	private String logoutUrl;
@@ -72,4 +73,18 @@ public class LoginInfo implements Serializable
 	{
 		this.nickname = nickname;
 	}
+	
+	@Override
+	public String toString()
+	{
+		return Objects.toStringHelper(this)
+				.add("loggedIn", loggedIn)
+				.add("loginUrl", loginUrl)
+				.add("logoutUrl", logoutUrl)
+				.add("emailAddress", emailAddress)
+				.add("nickname", nickname)
+				.add("id", id)
+				.toString();
+	}
+	
 }

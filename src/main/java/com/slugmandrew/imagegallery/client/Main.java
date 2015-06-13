@@ -1,5 +1,6 @@
 package com.slugmandrew.imagegallery.client;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -18,7 +19,6 @@ import com.slugmandrew.imagegallery.shared.LoginInfo;
  */
 public class Main implements EntryPoint
 {
-	
 	// Login code shamelessly stolen from:
 	// http://code.google.com/webtoolkit/doc/latest/tutorial/appengine.html
 	LoginServiceAsync loginService = GWT.create(LoginService.class);
@@ -37,37 +37,38 @@ public class Main implements EntryPoint
 		
 		RootPanel.get("gallery").add(galleryWidget);
 		
-		loginService.login(GWT.getHostPageBaseURL(),
-				new AsyncCallback<LoginInfo>()
+		loginService.login(GWT.getHostPageBaseURL(), new AsyncCallback<LoginInfo>()
+		{
+			@Override
+			public void onSuccess(LoginInfo result)
+			{
+				loginInfo = result;
+				
+				Log.info("Main.onModuleLoad().new AsyncCallback() {...} -> onSuccess() loginInfo: " + loginInfo);
+				
+				if(loginInfo.isLoggedIn())
 				{
+					uploadWidget = new UploadPhoto(result);
 					
-					@Override
-					public void onSuccess(LoginInfo result)
-					{
-						loginInfo = result;
-						if(loginInfo.isLoggedIn())
-						{
-							uploadWidget = new UploadPhoto(result);
-							
-							// Bind it to event so uploadWidget can refresh the gallery
-							uploadWidget.addGalleryUpdatedEventHandler(galleryWidget);
-							
-							RootPanel.get("photoSharing").add(uploadWidget);
-						}
-						else
-						{
-							loadLogin();
-						}
-						
-					}
+					// Bind it to event so uploadWidget can refresh the gallery
+					uploadWidget.addGalleryUpdatedEventHandler(galleryWidget);
 					
-					@Override
-					public void onFailure(Throwable caught)
-					{
-						// TODO Auto-generated method stub
-						
-					}
-				});
+					RootPanel.get("photoSharing").add(uploadWidget);
+				}
+				else
+				{
+					loadLogin();
+				}
+				
+			}
+			
+			@Override
+			public void onFailure(Throwable caught)
+			{
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		
 	}
 	

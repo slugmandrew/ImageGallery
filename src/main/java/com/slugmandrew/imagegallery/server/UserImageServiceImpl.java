@@ -3,6 +3,7 @@ package com.slugmandrew.imagegallery.server;
 import java.util.Date;
 import java.util.List;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.users.User;
@@ -14,21 +15,21 @@ import com.slugmandrew.imagegallery.shared.Tag;
 import com.slugmandrew.imagegallery.shared.UploadedImage;
 
 @SuppressWarnings("serial")
-public class UserImageServiceImpl extends RemoteServiceServlet implements
-		UserImageService
+public class UserImageServiceImpl extends RemoteServiceServlet implements UserImageService
 {
 	
 	@Override
 	public String getBlobstoreUploadUrl()
 	{
-		BlobstoreService blobstoreService = BlobstoreServiceFactory
-				.getBlobstoreService();
+		BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
 		return blobstoreService.createUploadUrl("/upload");
 	}
 	
 	@Override
 	public UploadedImage get(String key)
 	{
+		Log.info("UserImageServiceImpl -> get() key: " + key);
+		
 		UploadedImageDao dao = new UploadedImageDao();
 		UploadedImage image = dao.get(key);
 		return image;

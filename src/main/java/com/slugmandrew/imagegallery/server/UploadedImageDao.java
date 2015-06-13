@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -17,7 +18,6 @@ import com.slugmandrew.imagegallery.shared.UploadedImage;
 
 public class UploadedImageDao
 {
-	
 	DatastoreService datastore;
 	
 	public UploadedImageDao()
@@ -27,6 +27,8 @@ public class UploadedImageDao
 	
 	public UploadedImage get(String encodedKey)
 	{
+		Log.warn("UploadedImageDao -> get() encodedKey: " + encodedKey);
+		
 		Key key = KeyFactory.stringToKey(encodedKey);
 		try
 		{
@@ -67,10 +69,9 @@ public class UploadedImageDao
 	{
 		UploadedImage image = new UploadedImage();
 		image.setCreatedAt((Date) result.getProperty(UploadedImage.CREATED_AT));
-		image.setServingUrl((String) result
-				.getProperty(UploadedImage.SERVING_URL));
+		image.setServingUrl((String) result.getProperty(UploadedImage.SERVING_URL));
 		
-		image.setOwnerId((String) result.getProperty(UploadedImage.OWNER_ID));
+//		image.setOwnerId((String) result.getProperty(UploadedImage.OWNER_ID));
 		
 		if(image.getKey() == null)
 		{

@@ -12,10 +12,20 @@
 	<!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/> -->
 
 	<!-- Other module inherits -->
+	<inherits name="com.google.common.collect.Collect" />
 	<inherits name='com.gwtplatform.dispatch.Dispatch' />
 	<!-- <inherits name='com.gwtplatform.mvp.MvpWithEntryPoint' /> -->
 	<inherits name='com.gwtplatform.mvp.Mvp' />
 	<entry-point class='com.slugmandrew.imagegallery.client.Main' />
+
+	<!-- For development, a default of `DEBUG` is recommended -->
+	<inherits name="com.allen_sauer.gwt.log.gwt-log-DEBUG" />
+
+	<!-- Disable floating DivLogger -->
+	<set-property name="log_DivLogger" value="DISABLED" />
+
+
+
 
 	<source path='client' />
 	<source path='shared' />

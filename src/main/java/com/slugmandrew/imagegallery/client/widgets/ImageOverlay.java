@@ -47,8 +47,7 @@ import com.slugmandrew.imagegallery.shared.UploadedImage;
 public class ImageOverlay extends Composite implements HasHandlers
 {
 	
-	private static ImageOverlayUiBinder uiBinder = GWT
-			.create(ImageOverlayUiBinder.class);
+	private static ImageOverlayUiBinder uiBinder = GWT.create(ImageOverlayUiBinder.class);
 	
 	UserImageServiceAsync imageService = GWT.create(UserImageService.class);
 	
@@ -144,25 +143,24 @@ public class ImageOverlay extends Composite implements HasHandlers
 	void onClick(ClickEvent e)
 	{
 		final ImageOverlay overlay = this;
-		imageService.deleteImage(uploadedImage.getKey(),
-				new AsyncCallback<Void>()
-				{
-					
-					@Override
-					public void onSuccess(Void result)
-					{
-						GalleryUpdatedEvent event = new GalleryUpdatedEvent();
-						fireEvent(event);
-						overlay.removeFromParent();
-					}
-					
-					@Override
-					public void onFailure(Throwable caught)
-					{
-						// TODO Auto-generated method stub
-						
-					}
-				});
+		imageService.deleteImage(uploadedImage.getKey(), new AsyncCallback<Void>()
+		{
+			
+			@Override
+			public void onSuccess(Void result)
+			{
+				GalleryUpdatedEvent event = new GalleryUpdatedEvent();
+				fireEvent(event);
+				overlay.removeFromParent();
+			}
+			
+			@Override
+			public void onFailure(Throwable caught)
+			{
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		
 	}
 	

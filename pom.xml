@@ -24,6 +24,8 @@
 		<guice.version>3.0</guice.version>
 		<objectify.version>5.1.5</objectify.version>
 
+		<guava-version>16.0.1</guava-version>
+
 		<!-- testing -->
 		<junit.version>4.12</junit.version>
 		<jukito.version>1.4.1</jukito.version>
@@ -161,6 +163,19 @@
 			<version>${gwt.version}</version>
 		</dependency>
 
+
+		<!-- Guava -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${guava-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava-gwt</artifactId>
+			<version>${guava-version}</version>
+		</dependency>
+
 		<!-- GWT-Platform -->
 		<dependency>
 			<groupId>com.gwtplatform</groupId>
@@ -183,7 +198,9 @@
 			<version>${gwtp.version}</version>
 		</dependency>
 
-		<!-- DI -->
+
+
+		<!-- DI dependencies -->
 		<dependency>
 			<groupId>com.google.inject</groupId>
 			<artifactId>guice</artifactId>
@@ -203,6 +220,7 @@
 			<groupId>com.google.gwt.inject</groupId>
 			<artifactId>gin</artifactId>
 			<version>${gin.version}</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- Google App Engine dependencies -->
@@ -249,5 +267,14 @@
 			<version>${jukito.version}</version>
 			<scope>test</scope>
 		</dependency>
+
+
+		<!-- GWT Log -->
+		<dependency>
+			<groupId>com.allen-sauer.gwt.log</groupId>
+			<artifactId>gwt-log</artifactId>
+			<version>3.3.0</version>
+		</dependency>
+
 	</dependencies>
 </project>
