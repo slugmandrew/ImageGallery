@@ -5,7 +5,7 @@
 		<g:SimplePanel ui:field="uploadPanel" />
 		<g:SimplePanel ui:field="photoSharing" />
 		<g:SimplePanel ui:field="uploadedImage" />
-		<g:SimplePanel ui:field="gallery" />
+		<g:SimplePanel ui:field="galleryPanel" />
 
 	</g:HTMLPanel>
 

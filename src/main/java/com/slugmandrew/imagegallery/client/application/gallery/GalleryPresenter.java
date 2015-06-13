@@ -1,53 +1,60 @@
-package com.slugmandrew.imagegallery.client.widgets;
+package com.slugmandrew.imagegallery.client.application.gallery;
 
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratedPopupPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.slugmandrew.imagegallery.client.Main;
+import com.google.inject.Inject;
+import com.google.web.bindery.event.shared.EventBus;
+import com.gwtplatform.mvp.client.HasUiHandlers;
+import com.gwtplatform.mvp.client.PresenterWidget;
+import com.gwtplatform.mvp.client.View;
 import com.slugmandrew.imagegallery.client.events.GalleryUpdatedEvent;
 import com.slugmandrew.imagegallery.client.events.GalleryUpdatedEventHandler;
-import com.slugmandrew.imagegallery.client.services.UserImageService;
 import com.slugmandrew.imagegallery.client.services.UserImageServiceAsync;
 import com.slugmandrew.imagegallery.shared.UploadedImage;
 
-public class PhotoGallery extends Composite implements GalleryUpdatedEventHandler
+public class GalleryPresenter extends PresenterWidget<GalleryPresenter.MyView> implements GalleryUiHandlers, GalleryUpdatedEventHandler
 {
-	private static PhotoGalleryUiBinder uiBinder = GWT.create(PhotoGalleryUiBinder.class);
-	
-	private UserImageServiceAsync userImageService = GWT.create(UserImageService.class);
-	
-	interface PhotoGalleryUiBinder extends UiBinder<Widget, PhotoGallery>
+	interface MyView extends View, HasUiHandlers<GalleryUiHandlers>
 	{
+		FlexTable getGalleryTable();
 	}
 	
-	private static final int GALLERY_WIDTH = 5;
+	private UserImageServiceAsync userImageService;
 	
-	@UiField
-	FlexTable galleryTable;
+	private static final int GALLERY_WIDTH = 8;
 	
-	Main parent;
-	
-	public PhotoGallery(Main parent)
+	@Inject
+	GalleryPresenter(EventBus eventBus, MyView view, UserImageServiceAsync userImageService)
 	{
-		this.parent = parent;
+		super(eventBus, view);
 		
-		initWidget(uiBinder.createAndBindUi(this));
+		this.userImageService = userImageService;
+		
+		getView().setUiHandlers(this);
+	}
+	
+	@Override
+	protected void onBind()
+	{
+		super.onBind();
+		
+		addRegisteredHandler(GalleryUpdatedEvent.TYPE, this);
+	}
+	
+	@Override
+	protected void onReveal()
+	{
+		super.onReveal();
 		
 		refreshGallery();
 	}
@@ -66,9 +73,10 @@ public class PhotoGallery extends Composite implements GalleryUpdatedEventHandle
 					
 					Image imageWidget = createImageWidget(image);
 					
-					galleryTable.setWidget(currentRow, currentColumn, imageWidget);
+					getView().getGalleryTable().setWidget(currentRow, currentColumn, imageWidget);
 					
 					currentColumn++;
+					
 					if(currentColumn >= GALLERY_WIDTH)
 					{
 						currentColumn = 0;
@@ -120,23 +128,23 @@ public class PhotoGallery extends Composite implements GalleryUpdatedEventHandle
 			}
 		});
 		
-		imageWidget.addClickHandler(new ClickHandler()
-		{
-			@Override
-			public void onClick(ClickEvent event)
-			{
-				ImageOverlay imageOverlay = new ImageOverlay(image, parent.getLoginInfo());
-				imageOverlay.addGalleryUpdatedEventHandler(PhotoGallery.this);
-				
-				final PopupPanel imagePopup = new PopupPanel(true);
-				imagePopup.setAnimationEnabled(true);
-				imagePopup.setWidget(imageOverlay);
-				imagePopup.setGlassEnabled(true);
-				imagePopup.setAutoHideEnabled(true);
-				
-				imagePopup.center();
-			}
-		});
+//		imageWidget.addClickHandler(new ClickHandler()
+//		{
+//			@Override
+//			public void onClick(ClickEvent event)
+//			{
+//				ImageOverlay imageOverlay = new ImageOverlay(image, parent.getLoginInfo());
+//				imageOverlay.addGalleryUpdatedEventHandler(PhotoGallery.this);
+//				
+//				final PopupPanel imagePopup = new PopupPanel(true);
+//				imagePopup.setAnimationEnabled(true);
+//				imagePopup.setWidget(imageOverlay);
+//				imagePopup.setGlassEnabled(true);
+//				imagePopup.setAutoHideEnabled(true);
+//				
+//				imagePopup.center();
+//			}
+//		});
 		
 		return imageWidget;
 	}

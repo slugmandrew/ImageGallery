@@ -10,8 +10,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.ViewImpl;
-import com.slugmandrew.imagegallery.client.widgets.PhotoGallery;
-import com.slugmandrew.imagegallery.client.widgets.UploadPhoto;
 import com.slugmandrew.imagegallery.shared.LoginInfo;
 
 class HomePageView extends ViewImpl implements HomePagePresenter.MyView
@@ -21,10 +19,7 @@ class HomePageView extends ViewImpl implements HomePagePresenter.MyView
 	}
 	
 	@UiField
-	SimplePanel uploadPanel, photoSharing, uploadedImage, gallery;
-	
-	private PhotoGallery galleryWidget;
-	// private UploadPhoto uploadWidget;
+	SimplePanel uploadPanel, photoSharing, uploadedImage, galleryPanel;
 	
 	private VerticalPanel loginPanel = new VerticalPanel();
 	private Label loginLabel = new Label("Sign in to upload images!");
@@ -35,21 +30,8 @@ class HomePageView extends ViewImpl implements HomePagePresenter.MyView
 	{
 		initWidget(uiBinder.createAndBindUi(this));
 		
-		// galleryWidget = new PhotoGallery(this);
-		// RootPanel.get("gallery").add(galleryWidget);
 	}
-	
-//	@Override
-//	public void initUploadWidget(LoginInfo loginInfo)
-//	{
-//		uploadWidget = new UploadPhoto(loginInfo);
-//		
-//		// Bind it to event so uploadWidget can refresh the gallery
-//		// uploadWidget.addGalleryUpdatedEventHandler(galleryWidget);
-//		
-//		photoSharing.setWidget(uploadWidget);
-//		
-//	}
+
 	
 	@Override
 	public void initLoginWidget(LoginInfo loginInfo)
@@ -67,6 +49,10 @@ class HomePageView extends ViewImpl implements HomePagePresenter.MyView
 		if(slot == HomePagePresenter.SLOT_UPLOAD)
 		{
 			uploadPanel.setWidget(content);
+		}
+		else if(slot == HomePagePresenter.SLOT_GALLERY)
+		{
+			galleryPanel.setWidget(content);
 		}
 		else
 		{

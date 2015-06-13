@@ -13,7 +13,6 @@ import com.google.gwt.event.shared.GwtEvent;
  */
 public class GalleryUpdatedEvent extends GwtEvent<GalleryUpdatedEventHandler>
 {
-	
 	public static Type<GalleryUpdatedEventHandler> TYPE = new Type<GalleryUpdatedEventHandler>();
 	
 	@Override

@@ -66,6 +66,8 @@ public class UploadPresenter extends PresenterWidget<UploadPresenter.MyView> imp
 				
 				Window.alert("Upload Successful!");
 				
+				fireEvent(new GalleryUpdatedEvent());
+				
 				// userImageService.get(results, new AsyncCallback<UploadedImage>()
 				// {
 				// @Override
