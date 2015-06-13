@@ -4,8 +4,6 @@ import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 import com.google.inject.Inject;
@@ -16,9 +14,7 @@ import com.gwtplatform.mvp.client.View;
 import com.slugmandrew.imagegallery.client.dispatch.AsyncCallbackImpl;
 import com.slugmandrew.imagegallery.client.events.GalleryUpdatedEvent;
 import com.slugmandrew.imagegallery.client.services.UserImageServiceAsync;
-import com.slugmandrew.imagegallery.client.widgets.ImageOverlay;
 import com.slugmandrew.imagegallery.shared.LoginInfo;
-import com.slugmandrew.imagegallery.shared.UploadedImage;
 
 public class UploadPresenter extends PresenterWidget<UploadPresenter.MyView> implements UploadUiHandlers
 {
@@ -63,8 +59,6 @@ public class UploadPresenter extends PresenterWidget<UploadPresenter.MyView> imp
 				String results = event.getResults();
 				
 				Log.info("submitComplete results: " + results);
-				
-				Window.alert("Upload Successful!");
 				
 				fireEvent(new GalleryUpdatedEvent());
 				
@@ -121,7 +115,7 @@ public class UploadPresenter extends PresenterWidget<UploadPresenter.MyView> imp
 			@Override
 			public void onReturn(String result)
 			{
-				result = result.replace("Drew-i7-PC", "localhost");
+				result = result.replace("cex-PC", "localhost");
 				
 				Log.info("UploadPresenter.getUploadUrlAndSubmit().new AsyncCallbackImpl() {...} -> onReturn() result: " + result);
 				

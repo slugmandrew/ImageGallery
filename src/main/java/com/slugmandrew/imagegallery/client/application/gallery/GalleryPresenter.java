@@ -27,6 +27,7 @@ public class GalleryPresenter extends PresenterWidget<GalleryPresenter.MyView> i
 	interface MyView extends View, HasUiHandlers<GalleryUiHandlers>
 	{
 		FlexTable getGalleryTable();
+		void setData(List<UploadedImage> data);
 	}
 	
 	private UserImageServiceAsync userImageService;
@@ -66,6 +67,11 @@ public class GalleryPresenter extends PresenterWidget<GalleryPresenter.MyView> i
 			@Override
 			public void onSuccess(List<UploadedImage> images)
 			{
+				
+				getView().setData(images);
+				
+				
+				
 				int currentColumn = 0;
 				int currentRow = 0;
 				for(final UploadedImage image : images)
@@ -95,10 +101,12 @@ public class GalleryPresenter extends PresenterWidget<GalleryPresenter.MyView> i
 		});
 	}
 	
+	
+	
 	private Image createImageWidget(final UploadedImage image)
 	{
 		final Image imageWidget = new Image();
-		imageWidget.setUrl(image.getServingUrl() + "=s200");
+		imageWidget.setUrl(image.getServingUrl() + "=s250");
 		final DecoratedPopupPanel simplePopup = new DecoratedPopupPanel(true);
 		
 		imageWidget.addMouseOverHandler(new MouseOverHandler()
@@ -108,8 +116,7 @@ public class GalleryPresenter extends PresenterWidget<GalleryPresenter.MyView> i
 			{
 				Widget source = (Widget) event.getSource();
 				int left = source.getAbsoluteLeft() + 10;
-				int top = source.getAbsoluteTop() + source.getOffsetHeight()
-						+ 10;
+				int top = source.getAbsoluteTop() + source.getOffsetHeight() + 10;
 				
 				simplePopup.setWidth("150px");
 				simplePopup.setWidget(new HTML("Uploaded: " + image.getCreatedAt()));
@@ -128,23 +135,23 @@ public class GalleryPresenter extends PresenterWidget<GalleryPresenter.MyView> i
 			}
 		});
 		
-//		imageWidget.addClickHandler(new ClickHandler()
-//		{
-//			@Override
-//			public void onClick(ClickEvent event)
-//			{
-//				ImageOverlay imageOverlay = new ImageOverlay(image, parent.getLoginInfo());
-//				imageOverlay.addGalleryUpdatedEventHandler(PhotoGallery.this);
-//				
-//				final PopupPanel imagePopup = new PopupPanel(true);
-//				imagePopup.setAnimationEnabled(true);
-//				imagePopup.setWidget(imageOverlay);
-//				imagePopup.setGlassEnabled(true);
-//				imagePopup.setAutoHideEnabled(true);
-//				
-//				imagePopup.center();
-//			}
-//		});
+		// imageWidget.addClickHandler(new ClickHandler()
+		// {
+		// @Override
+		// public void onClick(ClickEvent event)
+		// {
+		// ImageOverlay imageOverlay = new ImageOverlay(image, parent.getLoginInfo());
+		// imageOverlay.addGalleryUpdatedEventHandler(PhotoGallery.this);
+		//
+		// final PopupPanel imagePopup = new PopupPanel(true);
+		// imagePopup.setAnimationEnabled(true);
+		// imagePopup.setWidget(imageOverlay);
+		// imagePopup.setGlassEnabled(true);
+		// imagePopup.setAutoHideEnabled(true);
+		//
+		// imagePopup.center();
+		// }
+		// });
 		
 		return imageWidget;
 	}
@@ -154,5 +161,9 @@ public class GalleryPresenter extends PresenterWidget<GalleryPresenter.MyView> i
 	{
 		refreshGallery();
 	}
+	
+	
+	
+	
 	
 }

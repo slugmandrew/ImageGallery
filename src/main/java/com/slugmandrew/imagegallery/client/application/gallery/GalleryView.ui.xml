@@ -1,11 +1,16 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
-<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder" xmlns:g="urn:import:com.google.gwt.user.client.ui">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder" xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:c="urn:import:com.google.gwt.user.cellview.client">
 
 	<g:HTMLPanel>
 
 		<g:Label>Gallery:</g:Label>
 
 		<g:FlexTable ui:field="galleryTable" />
+
+		<g:Label>Cells:</g:Label>
+
+		<c:CellList ui:field="table" />
+
 
 	</g:HTMLPanel>
 
