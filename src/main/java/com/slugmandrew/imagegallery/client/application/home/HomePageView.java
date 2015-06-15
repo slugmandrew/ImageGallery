@@ -31,12 +31,10 @@ class HomePageView extends ViewImpl implements HomePagePresenter.MyView
 		initWidget(uiBinder.createAndBindUi(this));
 		
 	}
-
 	
 	@Override
 	public void initLoginWidget(LoginInfo loginInfo)
 	{
-		// Assemble login panel.
 		signInLink.setHref(loginInfo.getLoginUrl());
 		loginPanel.add(loginLabel);
 		loginPanel.add(signInLink);

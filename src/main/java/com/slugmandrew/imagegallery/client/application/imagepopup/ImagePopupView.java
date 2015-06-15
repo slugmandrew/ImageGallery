@@ -1,13 +1,13 @@
 package com.slugmandrew.imagegallery.client.application.imagepopup;
 
-import javax.inject.Inject;
-
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.PopupViewWithUiHandlers;
 import com.slugmandrew.imagegallery.shared.LoginInfo;
@@ -49,6 +49,8 @@ class ImagePopupView extends PopupViewWithUiHandlers<ImagePopupUiHandlers> imple
 		
 		if(loginInfo != null && (loginInfo.getId().equals(uploadedImage.getOwnerId())))
 		{
+			Log.info("ImagePopupView -> setInfo(): loginInfo: " + loginInfo + ", ownerId: " + uploadedImage.getOwnerId());
+			
 			deleteButton.setText("Delete image");
 			deleteButton.setVisible(true);
 		}

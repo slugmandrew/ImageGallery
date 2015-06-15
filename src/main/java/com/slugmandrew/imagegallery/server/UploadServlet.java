@@ -3,7 +3,6 @@ package com.slugmandrew.imagegallery.server;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -28,10 +27,9 @@ import com.slugmandrew.imagegallery.shared.UploadedImage;
 @SuppressWarnings("serial")
 public class UploadServlet extends HttpServlet
 {
-	private static final Logger log = Logger.getLogger(UploadServlet.class.getName());
-	
 	private BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
 	
+	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException
 	{
 		
@@ -59,7 +57,7 @@ public class UploadServlet extends HttpServlet
 			Entity uploadedImage = new Entity("UploadedImage");
 			uploadedImage.setProperty("blobKey", blobKey);
 			uploadedImage.setProperty(UploadedImage.CREATED_AT, new Date());
-			// uploadedImage.setProperty(UploadedImage.OWNER_ID, user.getUserId());
+			uploadedImage.setProperty(UploadedImage.OWNER_ID, user.getUserId());
 			
 			// Highly unlikely we'll ever search on this property
 			uploadedImage.setUnindexedProperty(UploadedImage.SERVING_URL, replacedImageUrl);
@@ -71,22 +69,25 @@ public class UploadServlet extends HttpServlet
 			String keyString = KeyFactory.keyToString(uploadedImage.getKey());
 			
 			Log.info("UploadServlet -> doPost() keyString: " + keyString);
-			res.sendRedirect("/upload?uploadedImageKey=" + keyString);
+			
+			res.setHeader("Content-Type", "text/html");
+			res.getWriter().println(keyString);
+			
 		}
 	}
 	
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
-	{
-		String uploadedImageKey = req.getParameter("uploadedImageKey");
-	
-		Log.info("UploadServlet -> doGet() uploadedImageKey: " + uploadedImageKey);
-		
-		resp.setHeader("Content-Type", "text/html");
-		
-		// This is a bit hacky, but it'll work. We'll use this key in an Async service to
-		// fetch the image and image information
-		resp.getWriter().println(uploadedImageKey);
-		
-	}
+	// @Override
+	// protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
+	// {
+	// String uploadedImageKey = req.getParameter("uploadedImageKey");
+	//
+	// Log.info("UploadServlet -> doGet() uploadedImageKey: " + uploadedImageKey);
+	//
+	// resp.setHeader("Content-Type", "text/html");
+	//
+	// // This is a bit hacky, but it'll work. We'll use this key in an Async service to
+	// // fetch the image and image information
+	// resp.getWriter().println(uploadedImageKey);
+	//
+	// }
 }
